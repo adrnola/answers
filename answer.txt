@@ -1,7 +1,28 @@
-AWS CodeConnections does not directly integrate with AWS Key Management Service (KMS). However, when using AWS CodeBuild in conjunction with CodeConnections, you have the option to store access tokens for third-party providers in AWS Secrets Manager. If these secrets are encrypted with KMS customer managed keys, you must grant the necessary permissions to the CodeBuild project's IAM role to access and decrypt these secrets. This setup ensures that your access tokens are securely managed and accessible during build processes. 
-AWS DOCUMENTATION
+What AWS Cloudwatch Metrics and Alarms does AWS CodeConnections support ?
+ChatGPT said:
+ChatGPT
+AWS CodeConnections integrates with Amazon CloudWatch to provide monitoring and alerting capabilities for your CI/CD pipelines. By leveraging CloudWatch, you can track various metrics and set up alarms to maintain the health and performance of your build and deployment processes.
 
+Supported Metrics:
 
-Sources
+AWS CodeConnections allows you to monitor several key metrics through CloudWatch, including:
 
-https://docs.aws.amazon.com/codebuild/latest/userguide/multiple-access-tokens.html
+Pipeline Execution Metrics: Track the status and duration of pipeline executions to ensure timely and successful deployments.
+
+Action Execution Metrics: Monitor individual actions within your pipelines, such as source retrieval, build, and deploy stages, to identify bottlenecks or failures.
+
+Artifact Metrics: Observe the size and number of artifacts produced during the build process to manage storage and performance effectively.
+
+Approval Metrics: Keep an eye on manual approval actions to ensure they are addressed promptly, preventing deployment delays.
+
+Setting Up Alarms:
+
+To proactively manage your pipelines, you can configure CloudWatch alarms based on these metrics. For example:
+
+Pipeline Failure Alarm: Set up an alarm to notify you if a pipeline execution fails, enabling immediate investigation and remediation.
+
+Long Running Action Alarm: Create an alarm to alert you if a specific action exceeds its expected duration, indicating potential issues in the build or deployment process.
+
+Artifact Size Alarm: Establish an alarm to trigger if the size of an artifact surpasses a defined threshold, which could impact storage costs or deployment times.
+
+By effectively utilizing CloudWatch metrics and alarms, you can maintain robust monitoring and alerting mechanisms for your AWS CodeConnections pipelines, ensuring efficient and reliable CI/CD operations.
