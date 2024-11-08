@@ -99,3 +99,46 @@ Administrators can monitor and manage these connections in AWS CodeStar Connecti
 Bitbucket can use webhooks to notify AWS of changes in repositories, such as new commits or pull requests, which can then be used to trigger actions in AWS services like CodePipeline.
 This integration facilitates continuous integration/continuous delivery (CI/CD) workflows by enabling Bitbucket to trigger AWS pipelines or builds in response to repository changes.
 This OAuth-based integration ensures a secure and efficient way for AWS services to access and interact with Atlassian Bitbucket, facilitating seamless CI/CD processes.
+
+https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-create-bitbucket.html
+
+
+
+
+
+
+
+
+
+
+The technical process of AWS CodeConnections connecting to Atlassian Bitbucket relies on HTTPS and OAuth for secure communication, as follows:
+
+### 1. **Initiating the HTTPS-Based Connection**
+   - In the **AWS Management Console**, navigate to **CodePipeline** or **CodeBuild** and start creating a new connection by selecting Bitbucket as the source provider.
+   - AWS CodeConnections uses HTTPS (port 443) for secure, encrypted communication throughout the process.
+
+### 2. **OAuth Authorization Flow over HTTPS**
+   - **Redirect to Bitbucket**: When setting up the connection, AWS redirects the user to the Bitbucket authorization page using HTTPS.
+   - **App Authorization**: The user authorizes AWS by installing the **AWS CodeStar app** on their Bitbucket account. This installation grants AWS limited permissions to access specific Bitbucket resources.
+   - **Token Exchange**: Bitbucket then provides an **OAuth access token** to AWS over the HTTPS connection, which AWS securely stores to authenticate future requests to Bitbucket.
+
+### 3. **Token Storage and Management**
+   - **Secure Storage**: AWS stores the OAuth token securely, typically in **AWS Secrets Manager** or a similar managed service, ensuring that only authorized AWS services and roles have access.
+   - **Token Refresh**: AWS handles token refresh over HTTPS. If the token expires, AWS CodeConnections can request a refreshed token using the initially stored **refresh token**, maintaining secure access to Bitbucket without needing to reauthorize.
+
+### 4. **Validating the Connection**
+   - After token storage, AWS CodeConnections performs a validation step, again using HTTPS, to confirm it can access the specified Bitbucket repository and perform actions securely.
+
+### 5. **Repository Integration in AWS Services**
+   - Within **CodePipeline** or **CodeBuild**, you can select Bitbucket as a source and configure triggers for repository changes over HTTPS.
+   - AWS CodePipeline, for instance, uses the HTTPS connection to access your repository and automatically trigger pipeline stages on new commits, merges, or pull requests.
+
+### 6. **Data Transmission and Event Triggering over HTTPS**
+   - **Repository Synchronization**: Bitbucket repository changes are transmitted securely over HTTPS to AWS, where they can trigger events in services like CodePipeline.
+   - **Webhook Triggers**: Bitbucket can also send webhooks over HTTPS to notify AWS of repository events, enabling CodePipeline or CodeBuild to respond to changes.
+
+### Security Assurance
+   - **Encryption**: All communications between AWS and Bitbucket are encrypted using HTTPS, ensuring data is protected from interception.
+   - **IAM Role Access**: The IAM role associated with CodePipeline or CodeBuild is granted permissions to securely use the OAuth token, minimizing risk and enforcing access control.
+
+This integration enables AWS to access Bitbucket repositories securely, supporting CI/CD workflows by using encrypted HTTPS and OAuth for safe data exchange and automated event triggering.
