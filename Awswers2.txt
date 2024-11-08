@@ -1,0 +1,22 @@
+AWS CodeBuild employs a pay-as-you-go pricing model, charging based on the compute resources utilized during the build process. There are no upfront costs or minimum fees; you pay only for the resources you use. 
+AMAZON WEB SERVICES
+
+Key Components of CodeBuild Pricing:
+
+Build Duration:
+
+Charges are calculated from the time you submit your build until it completes, rounded up to the nearest minute. 
+AMAZON WEB SERVICES
+Compute Types:
+
+CodeBuild offers various compute instance types with different amounts of memory and CPU. The per-minute rate depends on the selected compute type. 
+AMAZON WEB SERVICES
+AWS Free Tier:
+
+The CodeBuild AWS Free Tier includes 100 total build minutes per month with the general1.small or arm1.small instance types using on-demand Amazon EC2. 
+AMAZON WEB SERVICES
+Additional Charges:
+
+You may incur additional charges if your builds transfer data or use other AWS services. For example, you may incur charges from Amazon CloudWatch Logs for build log streams, Amazon Simple Storage Service (Amazon S3) for build artifact storage, and AWS Key Management Service (AWS KMS) for encryption. 
+AMAZON WEB SERVICES
+For a detailed breakdown of pricing and to calculate your costs, refer to the AWS CodeBuild Pricing page.
