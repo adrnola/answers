@@ -1,0 +1,7 @@
+AWS CodeConnections does not directly integrate with AWS Key Management Service (KMS). However, when using AWS CodeBuild in conjunction with CodeConnections, you have the option to store access tokens for third-party providers in AWS Secrets Manager. If these secrets are encrypted with KMS customer managed keys, you must grant the necessary permissions to the CodeBuild project's IAM role to access and decrypt these secrets. This setup ensures that your access tokens are securely managed and accessible during build processes. 
+AWS DOCUMENTATION
+
+
+Sources
+
+https://docs.aws.amazon.com/codebuild/latest/userguide/multiple-access-tokens.html
