@@ -1,3 +1,6 @@
+https://aws.amazon.com/codebuild/pricing/
+
+
 AWS CodeBuild employs a pay-as-you-go pricing model, charging based on the compute resources utilized during the build process. There are no upfront costs or minimum fees; you pay only for the resources you use. 
 AMAZON WEB SERVICES
 
