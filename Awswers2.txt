@@ -55,5 +55,33 @@ This architecture leverages the flexibility and scalability of EC2 and Docker to
 
 
 
+What cloudwatch metrics does AWS CodeBuild support ?
+ChatGPT said:
+ChatGPT
+AWS CodeBuild provides a range of Amazon CloudWatch metrics to help you monitor and optimize your build processes. Here are the key metrics supported by CodeBuild:
 
+1. Build Metrics
+Builds: Total number of builds processed within a specified time frame.
+BuildsSucceeded: Number of successful builds completed.
+BuildsFailed: Number of failed builds.
+BuildsStopped: Number of builds that were manually stopped.
+Duration: Duration (in milliseconds) for each build from start to completion.
+2. Compute Metrics
+CPUUtilization: The percentage of CPU capacity used by the build.
+MemoryUtilization: The percentage of memory capacity used by the build.
+3. Disk I/O Metrics
+DiskReadBytes: Total bytes read from disk during the build.
+DiskWriteBytes: Total bytes written to disk during the build.
+4. Network Metrics
+NetworkIn: Total bytes received by the build environment.
+NetworkOut: Total bytes sent from the build environment.
+5. Queue Metrics
+Queued: Number of builds in a queue, waiting for resources to start the build process.
+6. Other Custom Metrics
+If you have additional build steps that emit custom CloudWatch metrics (e.g., via AWS SDK or CLI within the build), these can also be monitored in CloudWatch.
+Dimensions for CodeBuild Metrics
+ProjectName: Name of the CodeBuild project.
+BuildId: Unique identifier of a specific build.
+BuildStatus: Status of the build (e.g., "SUCCEEDED", "FAILED").
+You can use these metrics to set up CloudWatch Alarms for proactive monitoring, such as triggering notifications on build failures, unusual CPU or memory usage, or queue backlog, helping you keep track of build health and performance.
 
