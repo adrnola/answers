@@ -23,3 +23,37 @@ Additional Charges:
 You may incur additional charges if your builds transfer data or use other AWS services. For example, you may incur charges from Amazon CloudWatch Logs for build log streams, Amazon Simple Storage Service (Amazon S3) for build artifact storage, and AWS Key Management Service (AWS KMS) for encryption. 
 AMAZON WEB SERVICES
 For a detailed breakdown of pricing and to calculate your costs, refer to the AWS CodeBuild Pricing page.
+
+
+What is the underlying technology AWS CodeBuild runs on EC2?
+ChatGPT said:
+ChatGPT
+AWS CodeBuild runs on Amazon EC2 instances as its underlying infrastructure, specifically using containers orchestrated within the EC2 environment. Here's how CodeBuild operates technically:
+
+EC2 Instances and Compute Isolation:
+
+CodeBuild launches isolated EC2 instances to execute builds. Each build runs in its own isolated environment, ensuring security and separation across builds.
+CodeBuild provides several compute types with different CPU and memory configurations, which are provisioned as EC2 instances based on the requirements of your build project.
+Docker-Based Build Environments:
+
+CodeBuild uses Docker containers to encapsulate the build environments. This allows builds to run within Docker images, which include language runtimes, frameworks, and other dependencies needed for building applications.
+AWS provides a set of pre-configured Docker images for common environments (like Node.js, Python, Java), but you can also define custom images in Amazon ECR (Elastic Container Registry) or other Docker repositories.
+Auto-Scaling and On-Demand Infrastructure:
+
+CodeBuild automatically provisions, scales, and terminates EC2 instances as needed to handle build requests, ensuring that resources are only used when necessary.
+Each build request triggers the instantiation of a new EC2 instance (or container within an EC2 instance) to perform the build tasks, allowing CodeBuild to scale based on demand without manual intervention.
+Networking and Security:
+
+Builds in CodeBuild are run in secure, isolated environments. You can configure builds to run in a VPC (Virtual Private Cloud) to have network-level control, enabling access to other AWS services or private resources.
+CodeBuild uses IAM roles and policies to manage permissions securely, ensuring that each build process can access only the resources it requires.
+Storage:
+
+Temporary storage for build artifacts and caching is provisioned on the EC2 instance’s local storage or attached storage.
+For longer-term storage of artifacts, CodeBuild integrates with Amazon S3, and for caching dependencies, it supports S3 as well.
+This architecture leverages the flexibility and scalability of EC2 and Docker to offer a consistent and isolated build environment that can accommodate various workloads on-demand.
+
+
+
+
+
+
