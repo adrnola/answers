@@ -1,0 +1,33 @@
+What is the pricing model for AWS CodePipeline?
+ChatGPT said:
+ChatGPT
+AWS CodePipeline offers a flexible pricing model based on the type of pipeline you choose:
+
+V1-Type Pipelines:
+
+Cost: $1.00 per active pipeline per month. 
+AWS
+
+Definition of Active Pipeline: A pipeline that has existed for more than 30 days and has at least one code change running through it during the month. Pipelines with no new code changes during the month incur no charge. The active pipeline fee is not prorated for partial months. 
+AWS
+
+Free Tier: One active pipeline per month is free for new and existing customers. 
+AWS
+
+V2-Type Pipelines:
+
+Cost: $0.002 per action execution minute. The duration is calculated from the start to the completion of an action, rounded up to the nearest minute. Charges apply to all action types except for manual approval and custom action types. 
+AWS
+
+Free Tier: 100 action execution minutes per month are free, shared across all V2 pipelines in the account. Unused minutes do not carry over to the next month. 
+AWS
+
+Additional Charges:
+
+You may incur extra costs for:
+
+Storing and accessing pipeline artifacts in Amazon S3.
+
+Triggering actions from other AWS services or third-party integrations connected to your pipeline.
+
+For a detailed breakdown and examples, refer to the AWS CodePipeline Pricing page.
