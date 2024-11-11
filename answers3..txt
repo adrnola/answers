@@ -31,3 +31,6 @@ Storing and accessing pipeline artifacts in Amazon S3.
 Triggering actions from other AWS services or third-party integrations connected to your pipeline.
 
 For a detailed breakdown and examples, refer to the AWS CodePipeline Pricing page.
+
+
+https://aws.amazon.com/codepipeline/pricing/
