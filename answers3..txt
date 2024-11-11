@@ -34,3 +34,26 @@ For a detailed breakdown and examples, refer to the AWS CodePipeline Pricing pag
 
 
 https://aws.amazon.com/codepipeline/pricing/
+
+
+
+
+AWS CodePipeline provides several metric dimensions that you can use with Amazon CloudWatch to monitor pipeline activity. Here’s a breakdown of the key dimensions associated with AWS CodePipeline metrics:
+
+1. Pipeline Name:
+Dimension Name: PipelineName
+Description: Specifies the name of the pipeline you want to monitor. Using this dimension, you can focus on metrics related to a specific pipeline.
+2. Stage Name:
+Dimension Name: StageName
+Description: Specifies the name of the stage within a pipeline. This dimension is useful for monitoring metrics at the stage level (e.g., stage execution duration or status).
+3. Action Name:
+Dimension Name: ActionName
+Description: Specifies the name of the action within a stage. This allows for detailed monitoring of individual actions, such as deployment, build, or test actions.
+4. Execution ID:
+Dimension Name: ExecutionId
+Description: Unique identifier for a specific execution of a pipeline. Useful for tracking and correlating metrics across multiple stages and actions within a single pipeline execution.
+5. Pipeline and Stage Metrics (Combined):
+PipelineName, StageName: Use both dimensions together to get metrics specific to stages within a particular pipeline.
+PipelineName, ActionName: Use these together to monitor specific actions within a pipeline.
+PipelineName, ExecutionId: Enables tracking of metrics for a specific execution run of the pipeline.
+These dimensions allow you to customize and fine-tune your monitoring setup for AWS CodePipeline, giving you granular control over the metrics you need at the pipeline, stage, action, and execution levels.
