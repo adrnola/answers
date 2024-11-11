@@ -130,3 +130,27 @@ Configuring AMG to assume the IAM role in the Workload Account.
 Using AWS STS for secure cross-account access, allowing AMG to retrieve and visualize metrics from the workload resources.
 By securely configuring IAM roles and leveraging AWS STS, AMG in an AWS DevOps Account can retrieve and display CloudWatch and X-Ray metrics from a separate AWS Workload Account in a manner that adheres to AWS’s security best practices.
 
+
+
+import software.amazon.awscdk.App;
+import software.amazon.awscdk.Environment;
+import software.amazon.awscdk.StackProps;
+
+public class MyApp {
+    public static void main(final String[] args) {
+        App app = new App();
+
+        // Define the environment configuration
+        Environment env = Environment.builder()
+                .account("<Workload_Account_ID>")
+                .region("<region>")
+                .build();
+
+        // Initialize the stack with the environment
+        new MyStack(app, "MyStack", StackProps.builder()
+                .env(env)
+                .build());
+
+        app.synth();
+    }
+}
