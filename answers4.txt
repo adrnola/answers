@@ -38,3 +38,5 @@ Each workspace requires at least one Editor license to manage and log into the w
 AWS
 
 For detailed information and pricing examples, you can refer to the Amazon Managed Grafana Pricing page.
+
+https://aws.amazon.com/grafana/pricing/
