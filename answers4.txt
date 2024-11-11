@@ -1,0 +1,40 @@
+What is the AWS Managed Grafana (AMG) pricing model?
+ChatGPT said:
+ChatGPT
+Amazon Managed Grafana (AMG) offers a flexible, pay-as-you-go pricing model based on active user licenses per workspace. Here's an overview of the pricing structure:
+
+User License Types and Costs:
+
+Editor or Administrator License: $9 per active user per workspace per month. These users have permissions to manage workspaces, create and edit dashboards, and configure alerts.
+
+Viewer License: $5 per active user per workspace per month. Viewers have read-only access to dashboards and data sources.
+
+An "active user" is defined as someone who logs into an AMG workspace or makes an API request at least once during a monthly billing cycle. If a user is granted access but does not log in during the month, they are not billed for that period. 
+AWS
+
+API User Licenses:
+
+Administrator or Editor API User License: $9 per active API user per workspace per month.
+
+Viewer API User License: $5 per active API user per workspace per month.
+
+If multiple API keys with different permissions are associated with one API user license, the higher price applies. 
+AWS
+
+Enterprise Plugins and Support:
+
+For access to Enterprise Plugins that connect to third-party data sources like AppDynamics, Datadog, and Splunk, AMG offers an Enterprise Plugins license:
+
+Enterprise Plugins License: An additional $45 per active user per workspace per month. This upgrade also includes support and on-demand training directly from Grafana Labs. 
+AWS
+Free Trial:
+
+AMG provides a 90-day free trial, allowing up to five active users per account. Usage beyond these five users during the trial period is billed at the standard rates mentioned above. 
+AWS
+
+Minimum Charges:
+
+Each workspace requires at least one Editor license to manage and log into the workspace, even if no users log in during the month. This ensures that there's always an administrator available to manage the workspace. 
+AWS
+
+For detailed information and pricing examples, you can refer to the Amazon Managed Grafana Pricing page.
