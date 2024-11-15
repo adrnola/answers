@@ -69,3 +69,29 @@ GRAFANA
 Keep your Grafana environment up to date with the latest security patches and updates. Regular updates help protect against known vulnerabilities and enhance overall system security.
 
 By implementing these best practices, you can significantly strengthen the security posture of your Amazon Managed Grafana deployment, safeguarding your data and ensuring reliable operations.
+
+
+
+What Alarms does AWS Grafana support from monitoring of the service itself?
+ChatGPT said:
+ChatGPT
+Amazon Managed Grafana provides several mechanisms to monitor the health and performance of your Grafana workspaces:
+
+1. Amazon CloudWatch Metrics: Amazon Managed Grafana automatically publishes operational metrics to Amazon CloudWatch, allowing you to monitor various aspects of your Grafana workspaces. These metrics include:
+
+WorkspaceStatus: Indicates the current status of the workspace (e.g., ACTIVE, UPDATING, DELETING).
+UserCount: The number of users assigned to the workspace.
+DashboardCount: The total number of dashboards within the workspace.
+DataSourceCount: The number of data sources configured in the workspace.
+By setting up CloudWatch Alarms on these metrics, you can receive notifications when certain thresholds are breached, enabling proactive management of your Grafana environment.
+
+2. Audit Logging: Amazon Managed Grafana integrates with AWS CloudTrail to provide audit logs of user activities within your workspaces. These logs capture events such as:
+
+User Logins: Successful and failed login attempts.
+Dashboard Changes: Creation, modification, or deletion of dashboards.
+Data Source Modifications: Addition or removal of data sources.
+Monitoring these logs helps in detecting unauthorized access or configuration changes, thereby enhancing the security posture of your Grafana deployment.
+
+3. Workspace Notifications: Within the Grafana interface, you can configure alerts for specific panels or dashboards based on data thresholds. These alerts can be set to notify you via various channels, such as email or Slack, when certain conditions are met. This feature is particularly useful for real-time monitoring of critical metrics visualized in your dashboards.
+
+By leveraging these monitoring and alerting capabilities, you can ensure the reliability, security, and optimal performance of your Amazon Managed Grafana workspaces.
