@@ -1,0 +1,39 @@
+To effectively monitor AWS CodeBuild, it's essential to utilize Amazon CloudWatch metrics and set up appropriate alarms to ensure the health and performance of your build processes. Here's a structured approach to achieve this:
+
+1. Key CloudWatch Metrics for AWS CodeBuild:
+
+AWS CodeBuild provides several metrics that can be tracked at both the account and project levels. These metrics offer insights into the performance and outcomes of your build processes. Some of the primary metrics include:
+
+Builds: The total number of builds triggered.
+SucceededBuilds: The number of successful builds.
+FailedBuilds: The number of builds that failed due to client errors or timeouts.
+Duration: The total duration of all builds over time.
+BuildDuration: The duration of the build's BUILD phase.
+Phase Durations: Metrics for each build phase, such as DOWNLOAD_SOURCE, INSTALL, PRE_BUILD, BUILD, POST_BUILD, UPLOAD_ARTIFACTS, and FINALIZING.
+These metrics can be accessed and monitored through the AWS CodeBuild console or the Amazon CloudWatch console. 
+AWS DOCUMENTATION
+
+2. Resource Utilization Metrics:
+
+In addition to build metrics, AWS CodeBuild monitors resource utilization and reports the following metrics:
+
+CPUUtilized: The number of CPU units used by the build container.
+CPUUtilizedPercent: The percentage of allocated CPU used.
+MemoryUtilized: The amount of memory (in megabytes) used by the build container.
+MemoryUtilizedPercent: The percentage of allocated memory used.
+StorageReadBytes: The storage read speed used by the build container.
+StorageWriteBytes: The storage write speed used by the build container.
+These metrics help in understanding the resource consumption of your builds and can assist in optimizing build performance and cost. 
+AWS DOCUMENTATION
+
+3. Setting Up CloudWatch Alarms:
+
+To proactively monitor your build processes, you can set up CloudWatch alarms based on the metrics mentioned above. For instance:
+
+Failed Builds Alarm: Create an alarm that triggers if the number of failed builds exceeds a certain threshold within a specified time frame.
+High Build Duration Alarm: Set an alarm to notify you if the average build duration surpasses an acceptable limit, indicating potential performance issues.
+Resource Utilization Alarms: Establish alarms for high CPU or memory utilization to detect and address resource bottlenecks promptly.
+By configuring these alarms, you can receive notifications and take corrective actions to maintain the efficiency and reliability of your build processes. 
+AWS DOCUMENTATION
+
+Implementing a comprehensive monitoring strategy using CloudWatch metrics and alarms ensures that you have real-time visibility into your AWS CodeBuild operations, enabling you to maintain optimal performance and quickly address any issues that arise.
