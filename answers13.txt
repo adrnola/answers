@@ -37,3 +37,125 @@ By configuring these alarms, you can receive notifications and take corrective a
 AWS DOCUMENTATION
 
 Implementing a comprehensive monitoring strategy using CloudWatch metrics and alarms ensures that you have real-time visibility into your AWS CodeBuild operations, enabling you to maintain optimal performance and quickly address any issues that arise.
+
+
+
+
+what IAM roles are required to use AWS CodeBuild service ?
+ChatGPT said:
+ChatGPT
+To use AWS CodeBuild, you need specific IAM roles to ensure that the service has the necessary permissions to operate effectively. These roles include:
+
+1. Service Role for CodeBuild (Execution Role)
+Purpose: This role is assumed by AWS CodeBuild to execute build jobs.
+Permissions Required:
+Access to CodeBuild Resources: Permissions to allow CodeBuild to manage the build environment, download source code, and upload build artifacts.
+Example Policy:
+json
+Copy code
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:GetBucketLocation"
+      ],
+      "Resource": [
+        "arn:aws:s3:::<your-bucket-name>/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:<region>:<account-id>:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "codebuild:StartBuild",
+        "codebuild:StopBuild",
+        "codebuild:BatchGetBuilds",
+        "codebuild:BatchGetProjects"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+Default Role: AWS can automatically create the service role when setting up a project in the CodeBuild console.
+2. Permissions for Developers or Admins Using CodeBuild
+Purpose: Developers or administrators interacting with AWS CodeBuild via the console, CLI, or SDK need specific permissions.
+Example Policy:
+json
+Copy code
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "codebuild:CreateProject",
+        "codebuild:StartBuild",
+        "codebuild:BatchGetProjects",
+        "codebuild:BatchGetBuilds",
+        "codebuild:ListProjects",
+        "codebuild:StopBuild",
+        "codebuild:UpdateProject"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+3. Additional Roles for Integrated Services
+If Using Amazon S3:
+Ensure the service role has permissions for s3:GetObject and s3:PutObject to read and write artifacts.
+If Using AWS Secrets Manager:
+Add permissions for secretsmanager:GetSecretValue.
+If Using Amazon CloudWatch:
+Add permissions for logging:
+json
+Copy code
+{
+  "Effect": "Allow",
+  "Action": [
+    "logs:CreateLogGroup",
+    "logs:CreateLogStream",
+    "logs:PutLogEvents"
+  ],
+  "Resource": "arn:aws:logs:<region>:<account-id>:*"
+}
+If Using Amazon ECR:
+Add permissions for pulling Docker images:
+json
+Copy code
+{
+  "Effect": "Allow",
+  "Action": [
+    "ecr:GetAuthorizationToken",
+    "ecr:BatchCheckLayerAvailability",
+    "ecr:GetDownloadUrlForLayer",
+    "ecr:BatchGetImage"
+  ],
+  "Resource": "*"
+}
+Best Practices
+Use AWS Managed Policies:
+AWS provides managed policies like AWSCodeBuildDeveloperAccess and AWSCodeBuildReadOnlyAccess for developers and admins.
+Follow the Principle of Least Privilege:
+Grant only the permissions necessary for your use case.
+Monitor and Audit:
+Use AWS CloudTrail to monitor usage of CodeBuild and ensure roles are used as intended.
+Automated Setup
+When you create a CodeBuild project via the AWS Management Console, you can allow AWS to automatically create the service role and attach the required policies. This simplifies setup and ensures all necessary permissions are included.
+
+
+
+
+
+
