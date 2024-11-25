@@ -77,3 +77,6 @@ Reusability: Share constructs across teams or projects.
 Built-in Best Practices: The CDK offers well-architected defaults.
 Rich Ecosystem: Supports the AWS Construct Library and community-contributed constructs.
 The AWS CDK's flexibility, abstraction, and ability to leverage programming languages make it a powerful tool for managing AWS infrastructure efficiently.
+
+
+https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-database-encryption/encrypt-secrets-using-aws-kms/?utm_source=chatgpt.com
