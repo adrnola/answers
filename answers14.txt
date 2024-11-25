@@ -19,3 +19,77 @@ Elevated Data Source Errors: Configure an alarm for when the DataSourceErrorCoun
 Unusual Login Activity: Establish an alarm to detect significant deviations in the UserLoginsCount, which could point to unauthorized access attempts or other security concerns.
 
 By actively monitoring these metrics and setting up appropriate alarms, you can maintain the reliability and performance of your Amazon Managed Grafana service.
+
+
+
+
+What AWS IAM roles are needed to interact with the AWS Managed Grafana (AMG)
+ChatGPT said:
+ChatGPT
+To interact with Amazon Managed Grafana (AMG), specific AWS Identity and Access Management (IAM) roles and permissions are required depending on the type of interaction (e.g., administering AMG, using the service, or integrating it with other AWS services). Here's a breakdown of the roles and their purposes:
+
+1. AWS Service-Linked Role for AMG
+Purpose: Enables AMG to manage resources on your behalf.
+
+Role Name: AWSServiceRoleForAmazonManagedGrafana
+Managed Policy: Automatically attached by AWS.
+Description: Required for AMG to manage its internal configurations, such as integrating with data sources, managing workspaces, and enabling integrations.
+Actions Allowed:
+iam:PassRole
+cloudwatch:*
+xray:* (if enabled for tracing)
+Various permissions for supported AWS data sources like CloudWatch, X-Ray, and Athena.
+Setup: Automatically created when you create an AMG workspace.
+
+2. IAM Role for Workspace Authentication
+Purpose: Allows AMG workspaces to authenticate and access integrated AWS services (like CloudWatch, X-Ray, etc.).
+
+Example Role Name: AmazonManagedGrafanaWorkspaceAccessRole
+Permissions Required:
+sts:AssumeRole: Required by AMG to assume this role.
+Service-specific permissions for the services you want to integrate:
+For CloudWatch:
+cloudwatch:ListMetrics
+cloudwatch:GetMetricData
+cloudwatch:GetDashboard
+For X-Ray:
+xray:GetTraceSummaries
+xray:GetServiceGraph
+For AWS IoT:
+iot:GetThingShadow
+iot:DescribeThing
+For Athena:
+athena:StartQueryExecution
+athena:GetQueryResults
+3. IAM Role for SSO Integration
+Purpose: Grants AMG permission to integrate with Identity Providers (IdPs) for Single Sign-On (SSO).
+
+Role Name: Custom-defined based on your IdP integration.
+Permissions:
+For AWS SSO:
+sso:DescribePermissionSets
+sso:ListPermissionSetsProvisionedToAccount
+sso:GetRoleCredentials
+For custom IdPs:
+Permissions vary based on the IdP and authentication method.
+4. Admin or Workspace Management Role
+Purpose: For users managing AMG workspaces or administering the service.
+
+Example Role Name: GrafanaAdminRole
+Permissions:
+grafana:CreateWorkspace
+grafana:DeleteWorkspace
+grafana:UpdateWorkspace
+grafana:DescribeWorkspace
+grafana:ListWorkspaces
+iam:PassRole (to pass roles for AMG to assume)
+5. End-User Role for AMG Workspaces
+Purpose: Allows end-users to log in and interact with Grafana workspaces.
+
+Permissions: Managed by the workspace itself and controlled via AMG's user management.
+Integration: Typically linked to SSO or IAM Identity Center for user access.
+Additional Notes:
+Least Privilege Principle: Always assign the minimum set of permissions necessary for a role.
+Fine-Grained Data Source Access: Create IAM policies with service-specific permissions to control which AWS resources are accessible through Grafana dashboards.
+Service Limits: Ensure AMG is within the service quotas for workspaces and integrations.
+For detailed steps to create and attach these roles, consult the AWS Documentation on AMG Permissions.
