@@ -1,0 +1,21 @@
+Monitoring Amazon Managed Grafana (AMG) involves tracking specific CloudWatch metrics and setting up corresponding alarms to ensure the service operates smoothly. AMG automatically publishes several key metrics to Amazon CloudWatch, which you can use to monitor the health and performance of your Grafana workspaces.
+
+Key CloudWatch Metrics for AMG:
+
+UserLoginsCount: Tracks the number of user logins to your Grafana workspace. Monitoring this metric helps you understand user engagement and detect unusual login patterns.
+
+DashboardLoadTime: Measures the time taken to load dashboards within your Grafana workspace. High values may indicate performance issues that need attention.
+
+DataSourceErrorCount: Counts the number of errors encountered when querying data sources. An increase in this metric could signify issues with data source configurations or connectivity.
+
+ActiveUsers: Indicates the number of active users in your Grafana workspace over a specified period. This metric helps in assessing user activity and resource utilization.
+
+Recommended Alarms:
+
+High Dashboard Load Time: Set an alarm to trigger if the DashboardLoadTime exceeds a predefined threshold, indicating potential performance bottlenecks.
+
+Elevated Data Source Errors: Configure an alarm for when the DataSourceErrorCount surpasses a certain limit, suggesting issues with data retrieval from sources.
+
+Unusual Login Activity: Establish an alarm to detect significant deviations in the UserLoginsCount, which could point to unauthorized access attempts or other security concerns.
+
+By actively monitoring these metrics and setting up appropriate alarms, you can maintain the reliability and performance of your Amazon Managed Grafana service.
