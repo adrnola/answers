@@ -415,3 +415,82 @@ Explicitly block public access where applicable.
 Use tools like AWS Config, AWS Security Hub, and third-party tools to automate continuous compliance checks.
 By following these best practices, you can ensure that your CDK applications are secure, compliant, and follow AWS's recommendations for infrastructure-as-code security.
 
+
+
+
+Can a CDK bootstrap IAM policy contain "aws:PrincipleAccount" and "aws:ResourceAccount" to restrict the AWS Accounts it can boostrap ?
+ChatGPT said:
+ChatGPT
+Yes, you can use the aws:PrincipalAccount and aws:ResourceAccount condition keys in an IAM policy to restrict AWS CDK bootstrap actions to specific AWS accounts. These condition keys are useful for scoping permissions in cross-account scenarios, ensuring that only the desired accounts can perform bootstrap-related operations or manage bootstrapped resources.
+
+How to Use aws:PrincipalAccount and aws:ResourceAccount
+aws:PrincipalAccount:
+
+Restricts actions based on the AWS account of the IAM principal (the user or role initiating the request).
+aws:ResourceAccount:
+
+Restricts actions based on the AWS account of the target resource.
+Example Policy to Restrict CDK Bootstrap
+Here’s an example IAM policy that restricts the CDK bootstrap process to specific accounts:
+
+json
+Copy code
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowBootstrapFromSpecificAccounts",
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:CreateStack",
+        "cloudformation:DescribeStacks",
+        "cloudformation:UpdateStack",
+        "s3:CreateBucket",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "iam:CreateRole",
+        "iam:PutRolePolicy",
+        "iam:AttachRolePolicy",
+        "kms:CreateKey"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:PrincipalAccount": "123456789012",   // Replace with the allowed account ID
+          "aws:ResourceAccount": "123456789012"    // Replace with the allowed account ID
+        }
+      }
+    },
+    {
+      "Sid": "DenyBootstrapFromOtherAccounts",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalAccount": "123456789012",
+          "aws:ResourceAccount": "123456789012"
+        }
+      }
+    }
+  ]
+}
+Policy Explanation
+Allow Statement:
+
+Grants permissions required for CDK bootstrap operations (e.g., managing CloudFormation stacks, creating S3 buckets, IAM roles, etc.).
+Only applies if both the principal account and resource account match the specified account ID (123456789012).
+Deny Statement:
+
+Explicitly denies all actions if the principal account or resource account does not match the allowed account ID.
+This ensures no other accounts can bootstrap or access the resources.
+Steps to Implement
+Replace 123456789012 with the specific AWS account ID(s) you want to allow.
+Attach the policy to the IAM role or user used for CDK bootstrapping.
+Test the policy in a controlled environment to verify the restrictions.
+Key Considerations
+The aws:PrincipalAccount and aws:ResourceAccount condition keys are evaluated based on the requesting principal and the account owning the resource.
+Ensure that the CDK bootstrap commands (cdk bootstrap) align with the IAM principal and resource permissions defined in the policy.
+This policy works well in multi-account environments where you need strict control over who can bootstrap and manage CDK-deployed resources.
+By using this approach, you can restrict the CDK bootstrap process to authorized accounts and enforce account-specific governance.
