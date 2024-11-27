@@ -1,0 +1,180 @@
+Provide an IAM role with least privilege for CDK so that it can bootstrap an AWS Account only the following Accounts can be bootstrapped by CDK: DevOps, Dev, SIT, Prep
+ChatGPT said:
+ChatGPT
+To restrict AWS CDK bootstrapping to specific accounts (e.g., DevOps, Dev, SIT, and Prep), the IAM role needs to implement conditions using the aws:ResourceAccount key. This ensures that the resources created during the CDK bootstrap process are scoped to only the allowed accounts.
+
+Below is an example IAM role with least privilege that allows CDK to bootstrap AWS accounts, while restricting actions to the specified accounts.
+
+IAM Role Policy for Restricted CDK Bootstrap
+json
+Copy code
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowCloudFormationBootstrapForSpecificAccounts",
+      "Effect": "Allow",
+      "Action": [
+        "cloudformation:CreateStack",
+        "cloudformation:DeleteStack",
+        "cloudformation:DescribeStacks",
+        "cloudformation:UpdateStack",
+        "cloudformation:DescribeStackResources",
+        "cloudformation:GetTemplate",
+        "cloudformation:ListStackResources"
+      ],
+      "Resource": "arn:aws:cloudformation:*:*:stack/CDKToolkit/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": [
+            "111122223333",  // DevOps Account
+            "444455556666",  // Dev Account
+            "777788889999",  // SIT Account
+            "000011112222"   // Prep Account
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AllowS3AccessForBootstrap",
+      "Effect": "Allow",
+      "Action": [
+        "s3:CreateBucket",
+        "s3:DeleteBucket",
+        "s3:PutObject",
+        "s3:GetObject",
+        "s3:DeleteObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::cdk-*",
+        "arn:aws:s3:::cdk-*/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": [
+            "111122223333",
+            "444455556666",
+            "777788889999",
+            "000011112222"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AllowIAMRoleAndPolicyManagementForSpecificAccounts",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateRole",
+        "iam:DeleteRole",
+        "iam:AttachRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:GetRole",
+        "iam:PassRole"
+      ],
+      "Resource": "arn:aws:iam::*:role/cdk-*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": [
+            "111122223333",
+            "444455556666",
+            "777788889999",
+            "000011112222"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AllowKMSKeyManagementForSpecificAccounts",
+      "Effect": "Allow",
+      "Action": [
+        "kms:CreateKey",
+        "kms:DescribeKey",
+        "kms:EnableKeyRotation",
+        "kms:PutKeyPolicy",
+        "kms:ScheduleKeyDeletion"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": [
+            "111122223333",
+            "444455556666",
+            "777788889999",
+            "000011112222"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AllowSSMParameterStoreAccessForSpecificAccounts",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:PutParameter",
+        "ssm:GetParameter",
+        "ssm:DeleteParameter"
+      ],
+      "Resource": "arn:aws:ssm:*:*:parameter/cdk-bootstrap/*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceAccount": [
+            "111122223333",
+            "444455556666",
+            "777788889999",
+            "000011112222"
+          ]
+        }
+      }
+    }
+  ]
+}
+Policy Explanation
+CloudFormation Permissions (AllowCloudFormationBootstrapForSpecificAccounts):
+
+Grants permissions for CDK to manage the CDKToolkit stack, but only for the specified AWS accounts.
+S3 Permissions (AllowS3AccessForBootstrap):
+
+Allows CDK to manage S3 buckets used for storing deployment artifacts, scoped to buckets within the specified accounts.
+IAM Permissions (AllowIAMRoleAndPolicyManagementForSpecificAccounts):
+
+Enables the creation and management of IAM roles and policies required during CDK bootstrap, restricted to roles and resources in the allowed accounts.
+KMS Permissions (AllowKMSKeyManagementForSpecificAccounts):
+
+Allows managing KMS keys created during bootstrapping, scoped to the specified accounts.
+SSM Parameter Store Permissions (AllowSSMParameterStoreAccessForSpecificAccounts):
+
+Enables storing bootstrap-related parameters securely in the Systems Manager Parameter Store, limited to the allowed accounts.
+Steps to Implement
+Create the IAM Role:
+
+Use the AWS Management Console, CLI, or Infrastructure as Code (e.g., CDK, CloudFormation) to create the role.
+Attach this policy to the role.
+Set the Trust Relationship:
+
+Configure the trust relationship to allow the appropriate entity (e.g., a user, role, or service) to assume this role. Example trust policy:
+json
+Copy code
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:user/CDKUser"  // Replace with user/service ARN
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+Run the Bootstrap Command:
+Specify the role and accounts during the CDK bootstrap process:
+bash
+Copy code
+cdk bootstrap --trust 111122223333 --trust 444455556666 --trust 777788889999 --trust 000011112222 --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess
+Security Considerations
+Replace * in Resource where feasible with specific ARNs for tighter access control.
+Regularly review IAM policies to ensure compliance with least privilege principles.
+Enable AWS CloudTrail for auditing role usage.
+This policy ensures that CDK bootstrap operations are scoped to specific accounts while maintaining the least privilege necessary for the process.
