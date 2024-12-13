@@ -421,3 +421,21 @@ Sending notifications to external messaging platforms (e.g., Slack, Twilio).
 Querying external APIs for data enrichment.
 Triggering external systems to perform actions.
 AWS Step Functions provides flexible options for interacting with external systems, whether through Lambda, direct API calls, or task tokens, making it a powerful orchestration tool for hybrid workflows.
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": "states:*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalOrgID": "o-xxxxxxxxxx"  // Replace with your AWS Organization ID
+        }
+      }
+    }
+  ]
+}
