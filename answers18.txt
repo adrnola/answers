@@ -439,3 +439,21 @@ AWS Step Functions provides flexible options for interacting with external syste
     }
   ]
 }
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": "states:*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalOrgID": "o-xxxxxxxxxx"
+        }
+      }
+    }
+  ]
+}
+
