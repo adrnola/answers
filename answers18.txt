@@ -477,10 +477,8 @@ AWS Step Functions provides flexible options for interacting with external syste
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": {
-        "Service": "states.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:region:account-id:function:*"
     }
   ]
 }
